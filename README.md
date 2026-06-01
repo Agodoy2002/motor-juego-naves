@@ -178,6 +178,12 @@ flowchart LR
 **Prompt 2 - Comportamiento NPC:**
 > "En la clase Enemigo necesito que el método actualizarComportamiento reciba al jugador, calcule la distancia Manhattan y cambie automáticamente entre los estados PATRULLAR, PERSEGUIR y ATACAR según umbrales de distancia. Si ataca, debe llamar a recibirDanio() del jugador."
 
+**Prompt 3 - Validaciones de entrada:**
+> "Tengo un proyecto Java de motor de juego con estas clases: EntidadVideojuego, Jugador, Enemigo, MotorJuego, GestorEntradas, SistemaPuntuacion. Añade validaciones de entrada en los métodos: que las coordenadas x,y no sean negativas en setX() y setY(), que el daño en recibirDanio() no sea negativo, que la cantidad en sumarPuntos() no sea negativa, y que el comando en procesarEntrada() no sea null ni vacío. Ya tengo algunas, revisa que estén todas."
+
+**Prompt 4 - Ampliar escenarios de prueba:**
+> "Tengo una clase Main.java de un motor de juego Java que simula por consola. Añade estos escenarios de prueba adicionales: 1) Intentar iniciar una partida cuando ya hay una en curso para demostrar la regla de negocio. 2) Intentar pausar cuando el juego ya está en pausa. 3) Enviar un comando null y uno vacío al GestorEntradas para demostrar la validación. 4) Recoger una moneda con registrarMonedaRecogida(). Manteniendo el mismo estilo de logs con prefijos [MOTOR], [JUGADOR], etc."
+
 ### Errores de la IA y correcciones
 
 **Error detectado:** En la primera versión generada, la IA creó una clase extra llamada `GestorColisiones` separada, lo que superaba el límite de 6 clases permitidas por el enunciado. Además añadió métodos redundantes en `MotorJuego` que duplicaban lógica ya presente en `SistemaPuntuacion`.
@@ -193,10 +199,11 @@ flowchart LR
 - Guía paso a paso el flujo de trabajo Git con commits convencionales y estructura de ramas.
 
 **Peligros de usar IA:**
-- Tiende a sobre-ingenierizar: genera más clases de las necesarias si no se dan restricciones explícitas.
-- El código generado puede compilar pero tener fallos lógicos sutiles en el orden de operaciones del bucle.
+- Tiende a sobre-ingenierizar: en este proyecto intentó crear una clase `GestorColisiones` extra superando el límite de 6 clases, lo que requirió corrección manual.
+- El código generado puede compilar pero tener fallos lógicos sutiles: en el bucle de actualización la IA no contemplaba eliminar entidades inactivas tras la detección de colisiones, causando NullPointerException.
 - Bajo presión de tiempo es tentador aceptar el código sin revisarlo, introduciendo errores difíciles de depurar.
-- Es necesario supervisar siempre el output y entender cada línea generada para poder defenderla.
+- Es necesario supervisar siempre el output y entender cada línea generada para poder defenderla ante el profesor.
+- La IA no conoce las restricciones del enunciado: hay que repetirlas en cada prompt o ignorará los límites de clases y métodos.
 
 ---
 
