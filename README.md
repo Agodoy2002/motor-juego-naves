@@ -2,6 +2,7 @@
 # 🚀 Motor de Juego - Naves Espaciales 2D
 
 **Autor:** Almudena Godoy González
+**Fecha:** Junio 2026
 **Módulo:** Programación
 **Temática:** Juego de scroll vertical de naves espaciales
 
