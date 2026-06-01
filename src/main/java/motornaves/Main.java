@@ -1,4 +1,4 @@
-package motornaves;
+ package motornaves;
 
 /**
  * Clase principal. Simula el bucle de juego y las entradas del usuario por consola.
@@ -31,7 +31,7 @@ public class Main {
         gestor.pulsarBotonAccion();
         motor.actualizar();
 
-        System.out.println("\n--- TURNO 2: Pausa y reanudación ---");
+        System.out.println("\n--- TURNO 2: Pausa y reanudacion ---");
         gestor.procesarEntrada("PAUSA");
         motor.actualizar();
         gestor.procesarEntrada("REANUDAR");
@@ -51,12 +51,36 @@ public class Main {
         System.out.println("\n--- QUICK SAVE ---");
         motor.quickSave();
 
+        // ── NUEVOS ESCENARIOS ──────────────────────────────────────────────
+
+        System.out.println("\n--- REGLA DE NEGOCIO: Iniciar partida ya en curso ---");
+        motor.iniciarPartida(new Jugador("Nave Beta", 0, 0));
+
+        System.out.println("\n--- REGLA DE NEGOCIO: Pausar cuando ya esta en pausa ---");
+        motor.pausar();
+        motor.pausar();
+        motor.reanudar();
+
+        System.out.println("\n--- VALIDACION: Comando null y vacio en GestorEntradas ---");
+        gestor.procesarEntrada(null);
+        gestor.procesarEntrada("");
+
+        System.out.println("\n--- VALIDACION: Coordenada negativa en setX/setY ---");
+        jugador.setX(-5);
+        jugador.setY(-3);
+        System.out.println("[JUGADOR] Posicion tras intentar negativos: (" + jugador.getX() + "," + jugador.getY() + ")");
+
+        System.out.println("\n--- RECOGER MONEDA ---");
+        motor.getSistemaPuntuacion().registrarMonedaRecogida();
+
+        // ── FIN ───────────────────────────────────────────────────────────
+
         System.out.println("\n--- ESTADO FINAL ---");
         motor.getSistemaPuntuacion().mostrarEstado();
 
         System.out.println("\n--- FORZAR GAME OVER ---");
         motor.forzarGameOver();
 
-        System.out.println("\n=== FIN DE LA SIMULACIÓN ===");
+        System.out.println("\n=== FIN DE LA SIMULACION ===");
     }
 }
