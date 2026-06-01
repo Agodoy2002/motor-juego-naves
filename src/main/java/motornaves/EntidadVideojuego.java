@@ -1,4 +1,4 @@
- package motornaves;
+package motornaves;
 
 /**
  * Clase abstracta base para todas las entidades del juego.
@@ -30,8 +30,8 @@ public abstract class EntidadVideojuego {
     public EntidadVideojuego(String nombre, String tipo, int x, int y, int ancho, int alto, int vida) {
         this.nombre = nombre;
         this.tipo = tipo;
-        this.x = x;
-        this.y = y;
+        this.x = Math.max(0, x);
+        this.y = Math.max(0, y);
         this.ancho = ancho;
         this.alto = alto;
         this.vida = vida;
@@ -40,13 +40,14 @@ public abstract class EntidadVideojuego {
     }
 
     /**
-     * Metodo abstracto que cada entidad implementa para actualizar su estado en cada tick del juego.
+     * Metodo abstracto que cada entidad implementa para actualizar
+     * su estado en cada tick del juego.
      */
     public abstract void actualizar();
 
     /**
      * Aplica danio a la entidad y la desactiva si la vida llega a cero.
-     * @param danio Cantidad de puntos de vida a restar.
+     * @param danio Cantidad de puntos de vida a restar. Debe ser positivo.
      */
     public void recibirDanio(int danio) {
         if (danio < 0) return;
@@ -77,10 +78,30 @@ public abstract class EntidadVideojuego {
     /** @return true si la entidad sigue activa en el juego. */
     public boolean isActiva() { return activa; }
 
-    /** @param x Nueva posicion en el eje X. */
-    public void setX(int x) { this.x = x; }
-    /** @param y Nueva posicion en el eje Y. */
-    public void setY(int y) { this.y = y; }
+    /**
+     * Establece la posicion en el eje X. No acepta valores negativos.
+     * @param x Nueva posicion en el eje X.
+     */
+    public void setX(int x) {
+        if (x < 0) {
+            System.out.println("[ENTIDAD] setX rechazado: coordenada X negativa (" + x + ")");
+            return;
+        }
+        this.x = x;
+    }
+
+    /**
+     * Establece la posicion en el eje Y. No acepta valores negativos.
+     * @param y Nueva posicion en el eje Y.
+     */
+    public void setY(int y) {
+        if (y < 0) {
+            System.out.println("[ENTIDAD] setY rechazado: coordenada Y negativa (" + y + ")");
+            return;
+        }
+        this.y = y;
+    }
+
     /** @param vida Nuevos puntos de vida. */
     public void setVida(int vida) { this.vida = vida; }
     /** @param activa Estado de activacion de la entidad. */
@@ -90,4 +111,4 @@ public abstract class EntidadVideojuego {
     public String toString() {
         return "[" + tipo + "] " + nombre + " | Pos:(" + x + "," + y + ") | Vida:" + vida;
     }
-}
+} 
