@@ -1,7 +1,8 @@
+
 # 🚀 Motor de Juego - Naves Espaciales 2D
 
-**Autor:** Almudena Godoy González  
-**Módulo:** Programación  
+**Autor:** Almudena Godoy González
+**Módulo:** Programación
 **Temática:** Juego de scroll vertical de naves espaciales
 
 ---
@@ -14,14 +15,14 @@ Motor básico para un videojuego de naves espaciales 2D con scroll vertical. El 
 
 ## 2. Arquitectura del Software
 
-| Clase | Descripción |
-|-------|-------------|
-| `EntidadVideojuego` | Clase abstracta base. Define atributos comunes: posición (x,y), tamaño (w,h), vida, nombre, tipo e imagen. |
-| `Jugador` | Hereda de EntidadVideojuego. Representa la nave del jugador con movimiento, disparo y puntos. |
-| `Enemigo` | Hereda de EntidadVideojuego. NPC con comportamiento automático: PATRULLAR, PERSEGUIR, ATACAR. |
-| `MotorJuego` | Cerebro del juego. Gestiona el estado (MENU, JUGANDO, PAUSA, GAME_OVER), la lista de entidades, colisiones y el bucle de juego. |
-| `GestorEntradas` | Procesa comandos simulados del jugador (ARRIBA, ABAJO, ACCION, PAUSA...). |
-| `SistemaPuntuacion` | Gestiona puntos, vidas, logros desbloqueados y exportación del estado (Quick Save). |
+| Clase               | Descripción                                                                                                                      |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `EntidadVideojuego` | Clase abstracta base. Define atributos comunes: posición (x,y), tamaño (w,h), vida, nombre, tipo e imagen.                       |
+| `Jugador`           | Hereda de EntidadVideojuego. Representa la nave del jugador con movimiento, disparo y puntos.                                    |
+| `Enemigo`           | Hereda de EntidadVideojuego. NPC con comportamiento automático: PATRULLAR, PERSEGUIR, ATACAR.                                    |
+| `MotorJuego`        | Cerebro del juego. Gestiona el estado (MENU, JUGANDO, PAUSA, GAME_OVER), la lista de entidades, colisiones y el bucle de juego. |
+| `GestorEntradas`    | Procesa comandos simulados del jugador (ARRIBA, ABAJO, ACCION, PAUSA...).                                                        |
+| `SistemaPuntuacion` | Gestiona puntos, vidas, logros desbloqueados y exportación del estado (Quick Save).                                              |
 
 ---
 
@@ -50,7 +51,6 @@ classDiagram
         +setY(int) void
         +setActiva(boolean) void
     }
-
     class Jugador {
         -int puntos
         -int escudo
@@ -61,14 +61,12 @@ classDiagram
         +getPuntos() int
         +getEscudo() int
     }
-
     class Enemigo {
         -EstadoEnemigo estado
         -int velocidad
         +actualizarComportamiento(Jugador) void
         +getEstado() EstadoEnemigo
     }
-
     class MotorJuego {
         -EstadoJuego estado
         -List~EntidadVideojuego~ entidades
@@ -82,7 +80,6 @@ classDiagram
         +agregarEntidad(EntidadVideojuego) void
         +quickSave() String
     }
-
     class GestorEntradas {
         -Jugador jugador
         -MotorJuego motor
@@ -90,7 +87,6 @@ classDiagram
         +pulsarBotonAccion() void
         +desplazarEntidad(String) void
     }
-
     class SistemaPuntuacion {
         -int puntuacion
         -int vidas
@@ -102,7 +98,6 @@ classDiagram
         +exportarEstado(Jugador) String
         +mostrarEstado() void
     }
-
     EntidadVideojuego <|-- Jugador
     EntidadVideojuego <|-- Enemigo
     MotorJuego --> Jugador
@@ -139,35 +134,36 @@ graph TD
 
 ### CU-01: Iniciar Partida
 
-| Campo | Descripción |
-|-------|-------------|
-| **Nombre** | CU-01 Iniciar Partida |
-| **Objetivo** | El jugador inicia una nueva partida desde el menú principal. |
-| **Actor Principal** | Jugador |
-| **Precondiciones** | El motor debe estar en estado MENU o GAME_OVER. |
-| **Flujo Principal** | 1. El jugador llama a iniciarPartida(). 2. El motor cambia estado a JUGANDO. 3. Se registra el jugador en la lista de entidades. 4. Se imprimen logs de inicio. |
-| **Flujos Alternativos** | Si el estado no es MENU ni GAME_OVER, el sistema muestra mensaje de error y no inicia. |
-| **Postcondiciones** | El motor queda en estado JUGANDO con el jugador registrado. |
-| **Reglas de Negocio** | No se puede iniciar una partida si ya hay una en curso. |
+| Campo                   | Descripción                                                                                                                                                     |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Nombre**              | CU-01 Iniciar Partida                                                                                                                                           |
+| **Objetivo**            | El jugador inicia una nueva partida desde el menú principal.                                                                                                    |
+| **Actor Principal**     | Jugador                                                                                                                                                         |
+| **Precondiciones**      | El motor debe estar en estado MENU o GAME_OVER.                                                                                                                 |
+| **Flujo Principal**     | 1. El jugador llama a iniciarPartida(). 2. El motor cambia estado a JUGANDO. 3. Se registra el jugador en la lista de entidades. 4. Se imprimen logs de inicio. |
+| **Flujos Alternativos** | Si el estado no es MENU ni GAME_OVER, el sistema muestra mensaje de error y no inicia.                                                                          |
+| **Postcondiciones**     | El motor queda en estado JUGANDO con el jugador registrado.                                                                                                     |
+| **Reglas de Negocio**   | No se puede iniciar una partida si ya hay una en curso.                                                                                                         |
 
 ### CU-02: Detectar Colisión
 
-| Campo | Descripción |
-|-------|-------------|
-| **Nombre** | CU-02 Detectar Colisión |
-| **Objetivo** | El sistema detecta si el jugador colisiona con un enemigo y aplica consecuencias. |
-| **Actor Principal** | Sistema (automático en cada actualizar()) |
-| **Precondiciones** | El motor debe estar en estado JUGANDO con al menos un enemigo activo. |
-| **Flujo Principal** | 1. El motor llama a detectarColisiones(). 2. Se comparan coordenadas y tamaños de jugador y enemigos. 3. Si hay colisión, el jugador recibe daño y pierde una vida. 4. El enemigo queda inactivo y se elimina de la lista. |
-| **Flujos Alternativos** | Si no hay colisión, no ocurre ningún cambio de estado. |
-| **Postcondiciones** | El jugador tiene menos vida y vidas. Si las vidas llegan a 0, el motor cambia a GAME_OVER. |
-| **Reglas de Negocio** | La colisión se calcula con AABB (Axis-Aligned Bounding Box): dos rectángulos se solapan si sus coordenadas x,y,w,h se intersectan. |
+| Campo                   | Descripción                                                                                                                                                                                                                |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Nombre**              | CU-02 Detectar Colisión                                                                                                                                                                                                    |
+| **Objetivo**            | El sistema detecta si el jugador colisiona con un enemigo y aplica consecuencias.                                                                                                                                          |
+| **Actor Principal**     | Sistema (automático en cada actualizar())                                                                                                                                                                                  |
+| **Precondiciones**      | El motor debe estar en estado JUGANDO con al menos un enemigo activo.                                                                                                                                                      |
+| **Flujo Principal**     | 1. El motor llama a detectarColisiones(). 2. Se comparan coordenadas y tamaños de jugador y enemigos. 3. Si hay colisión, el jugador recibe daño y pierde una vida. 4. El enemigo queda inactivo y se elimina de la lista. |
+| **Flujos Alternativos** | Si no hay colisión, no ocurre ningún cambio de estado.                                                                                                                                                                     |
+| **Postcondiciones**     | El jugador tiene menos vida y vidas. Si las vidas llegan a 0, el motor cambia a GAME_OVER.                                                                                                                                 |
+| **Reglas de Negocio**   | La colisión se calcula con AABB (Axis-Aligned Bounding Box): dos rectángulos se solapan si sus coordenadas x,y,w,h se intersectan.                                                                                         |
 
 ---
 
 ## 6. Bitácora de Uso de Inteligencia Artificial
 
 ### Herramienta utilizada
+
 **Claude (Anthropic)** - Usado como asistente de codificación y diseño de arquitectura a lo largo de toda la práctica, guiando paso a paso la implementación.
 
 ### Prompts utilizados
@@ -197,3 +193,36 @@ graph TD
 - El código generado puede compilar pero tener fallos lógicos sutiles en el orden de operaciones del bucle.
 - Bajo presión de tiempo es tentador aceptar el código sin revisarlo, introduciendo errores difíciles de depurar.
 - Es necesario supervisar siempre el output y entender cada línea generada para poder defenderla.
+
+---
+
+## 7. Instrucciones de Ejecución
+
+### Requisitos Previos
+
+- **JDK 21** o superior instalado en el sistema.
+- Verificar instalación con: `java -version`
+
+### Compilar el proyecto
+
+Desde la raíz del repositorio ejecuta:
+
+```bash
+javac -d out src/main/java/motornaves/*.java
+```
+
+### Ejecutar el proyecto
+
+```bash
+java -cp out motornaves.Main
+```
+
+### Ejemplo de salida esperada
+
+Al ejecutar, la consola mostrará logs con estos prefijos:
+- `[MOTOR]` — acciones del motor de juego
+- `[JUGADOR]` — movimientos y estado del jugador
+- `[ENEMIGO]` — comportamiento NPC
+- `[INPUT]` — comandos procesados
+- `[PUNTUACION]` — puntos, vidas y logros
+- `[COLISION]` — detección de colisiones AABB
