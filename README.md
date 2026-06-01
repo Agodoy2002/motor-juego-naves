@@ -1,7 +1,7 @@
-
 # 🚀 Motor de Juego - Naves Espaciales 2D
 
 **Autor:** Almudena Godoy González
+**Fecha:** Junio 2026
 **Módulo:** Programación
 **Temática:** Juego de scroll vertical de naves espaciales
 
@@ -112,20 +112,24 @@ classDiagram
 ## 4. Diagrama de Casos de Uso UML
 
 ```mermaid
-graph TD
-    Actor((Jugador))
-    Actor --> CU1[CU-01 Iniciar Partida]
-    Actor --> CU2[CU-02 Mover Nave]
-    Actor --> CU3[CU-03 Disparar]
-    Actor --> CU4[CU-04 Pausar Juego]
-    Actor --> CU5[CU-05 Reanudar Juego]
-    Actor --> CU6[CU-06 Quick Save]
-    CU1 --> Sistema[Motor de Juego]
-    CU2 --> Sistema
-    CU3 --> Sistema
-    CU4 --> Sistema
-    CU5 --> Sistema
-    CU6 --> Sistema
+flowchart LR
+    actor((👤 Jugador))
+
+    actor --> CU1([CU-01 Iniciar Partida])
+    actor --> CU2([CU-02 Mover Nave])
+    actor --> CU3([CU-03 Disparar])
+    actor --> CU4([CU-04 Pausar Juego])
+    actor --> CU5([CU-05 Reanudar Juego])
+    actor --> CU6([CU-06 Quick Save])
+
+    subgraph Sistema [🎮 Motor de Juego]
+        CU1
+        CU2
+        CU3
+        CU4
+        CU5
+        CU6
+    end
 ```
 
 ---
