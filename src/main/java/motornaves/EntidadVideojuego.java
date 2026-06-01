@@ -36,7 +36,7 @@ public abstract class EntidadVideojuego {
         this.alto = alto;
         this.vida = vida;
         this.activa = true;
-        this.imagenRuta = "assets/" + tipo.toLowerCase() + ".png";
+        this.imagenRuta = "assets/sprites/" + tipo.toLowerCase() + ".png";
     }
 
     /**
@@ -111,4 +111,4 @@ public abstract class EntidadVideojuego {
     public String toString() {
         return "[" + tipo + "] " + nombre + " | Pos:(" + x + "," + y + ") | Vida:" + vida;
     }
-} 
+}
