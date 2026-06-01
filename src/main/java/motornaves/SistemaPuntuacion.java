@@ -1,4 +1,4 @@
- package motornaves;
+package motornaves;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,7 @@ public class SistemaPuntuacion {
     private static final int PUNTOS_POR_ENEMIGO = 100;
     private static final int PUNTOS_POR_MONEDA = 25;
     private static final int LOGRO_ENEMIGOS_ELIMINADOS = 3;
+    private static final int LOGRO_PUNTUACION_ALTA = 500;
 
     private int puntuacion;
     private int vidas;
@@ -44,6 +45,7 @@ public class SistemaPuntuacion {
     public void registrarMonedaRecogida() {
         this.puntuacion += PUNTOS_POR_MONEDA;
         System.out.println("[PUNTUACION] Moneda recogida. +" + PUNTOS_POR_MONEDA + " puntos. Total: " + puntuacion);
+        verificarLogros();
     }
 
     /**
@@ -63,6 +65,10 @@ public class SistemaPuntuacion {
         if (enemigosEliminados >= LOGRO_ENEMIGOS_ELIMINADOS
                 && !logrosDesbloqueados.contains("EXTERMINADOR")) {
             desbloquearLogro("EXTERMINADOR", "Elimina " + LOGRO_ENEMIGOS_ELIMINADOS + " enemigos");
+        }
+        if (puntuacion >= LOGRO_PUNTUACION_ALTA
+                && !logrosDesbloqueados.contains("PUNTUADOR")) {
+            desbloquearLogro("PUNTUADOR", "Alcanza " + LOGRO_PUNTUACION_ALTA + " puntos");
         }
     }
 
